@@ -1,0 +1,52 @@
+﻿@page "/"
+@inject ITodoService TodoService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Task List</PageTitle>
+<h1>Tasks</h1>
+
+<MudDataGrid Items="TodoService.Todos">
+    <Columns>
+        <PropertyColumn Property="todo => todo.Title" />
+        <PropertyColumn Property="todo => todo.Description" />
+        <PropertyColumn Property="todo => todo.DueDate.ToShortDateString()" Title="Due Date"/>
+        <PropertyColumn Property="todo => todo.Priority" />
+        <PropertyColumn Property="todo => todo.Status" />
+        <TemplateColumn Context="data">
+            <CellTemplate>
+                <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Filled.Edit" @onclick="(() => EditTodoPage(data.Item.Id))"></MudIconButton>
+            </CellTemplate>
+        </TemplateColumn>
+    </Columns>
+</MudDataGrid>
+
+<MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" Class="fab-position" @onclick="CreateTodoPage" />
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await TodoService.GetTodos(); // Get Tasks from database
+    }
+
+    private void CreateTodoPage()
+    {
+        NavigationManager.NavigateTo("task-add");
+    }
+
+    private void EditTodoPage(int id)
+    {
+        NavigationManager.NavigateTo($"task-edit/{id}");
+    }
+}
+
+<style>
+    h1 {
+        margin-bottom: 5px;
+    }
+
+    .fab-position {
+        position: fixed;
+        bottom: 16px;
+        right: 16px;
+    }
+</style>

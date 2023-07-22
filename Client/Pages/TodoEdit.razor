@@ -1,0 +1,87 @@
+﻿@page "/task-edit/{id:int}"
+@using TaskList.Shared;
+@inject ITodoService TodoService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Edit @todo.Title</PageTitle>
+<h3>Edit @todo.Title</h3>
+
+<EditForm Model="todo" OnValidSubmit="HandleSubmit">
+    <DataAnnotationsValidator />
+    <div>
+        <MudTextField @bind-Value="todo.Title" Label="Title" Variant="Variant.Outlined"></MudTextField>
+        <ValidationMessage For="@(() => todo.Title)" />
+    </div>
+    <div>
+        <MudTextField @bind-Value="todo.Description" Label="Description" Variant="Variant.Outlined" Lines="3"></MudTextField>
+        <ValidationMessage For="@(() => todo.Description)" />
+    </div>
+    <div>
+        <MudDatePicker Label="Due Date" @bind-Date="date" Variant="Variant.Outlined" />
+        <ValidationMessage For="@(() => todo.DueDate)" />
+    </div>
+    <div>
+        <MudSelect T="string" @bind-Value="todo.Priority" Label="Priority" Variant="Variant.Outlined">
+            <MudSelectItem Value="@("Low")">Low</MudSelectItem>
+            <MudSelectItem Value="@("Medium")">Medium</MudSelectItem>
+            <MudSelectItem Value="@("High")">High</MudSelectItem>
+        </MudSelect>
+        <ValidationMessage For="@(() => todo.Priority)" />
+    </div>
+    <div>
+        <MudSelect T="string" @bind-Value="todo.Status" Label="Status" Variant="Variant.Outlined">
+            <MudSelectItem Value="@("Not Completed")">Not Completed</MudSelectItem>
+            <MudSelectItem Value="@("Completed")">Completed</MudSelectItem>
+        </MudSelect>
+        <ValidationMessage For="@(() => todo.Status)" />
+    </div>
+
+    <br />
+    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary">Update Task</MudButton>
+    <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Error" OnClick="DeleteTodo">Delete Task</MudButton>
+    @*<button type="submit" class="btn btn-primary">Add Task</button>*@
+</EditForm>
+
+
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    Todo todo = new Todo();
+    private DateTime? date = DateTime.Today;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        Todo? dbTodo = await TodoService.GetTodoById(Id);
+        if (dbTodo == null)
+        {
+            throw new Exception("This Task does not exist");
+        }
+
+        todo = dbTodo;
+    }
+
+    // Submit and update Todo in database
+    private async Task HandleSubmit()
+    {
+        await TodoService.UpdateTodo(todo);
+        NavigateToTasks();
+    }
+
+    // Delete Todo from database
+    private async Task DeleteTodo()
+    {
+        todo.DueDate = date ?? todo.DueDate; // Set to newly selected date or original date
+
+        await TodoService.DeleteTodo(Id);
+        NavigateToTasks();
+    }
+
+    // Navigate to task list page
+    private void NavigateToTasks()
+    {
+        NavigationManager.NavigateTo("");
+    }
+}
+

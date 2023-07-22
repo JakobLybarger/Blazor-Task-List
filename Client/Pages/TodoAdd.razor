@@ -1,0 +1,52 @@
+﻿@page "/task-add"
+@using TaskList.Shared;
+@inject ITodoService TodoService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Create Task</PageTitle>
+<h1>Create Task</h1>
+
+<EditForm Model="todo" OnValidSubmit="HandleSubmit">
+    <DataAnnotationsValidator />
+    <div>
+        <MudTextField @bind-Value="todo.Title" Label="Title" Variant="Variant.Outlined"></MudTextField>
+        <ValidationMessage For="@(() => todo.Title)" />
+    </div>
+    <div>
+        <MudTextField @bind-Value="todo.Description" Label="Description" Variant="Variant.Outlined" Lines="3" ></MudTextField>
+        <ValidationMessage For="@(() => todo.Description)" />
+    </div>
+    <div>
+        <MudDatePicker Label="Due Date" @bind-Date="date" Variant="Variant.Outlined" />
+        <ValidationMessage For="@(() => todo.DueDate)" />
+    </div>
+    <div>
+        <MudSelect T="string" @bind-Value="todo.Priority" Label="Priority" Variant="Variant.Outlined">
+            <MudSelectItem Value="@("Low")">Low</MudSelectItem>
+            <MudSelectItem Value="@("Medium")">Medium</MudSelectItem>
+            <MudSelectItem Value="@("High")">High</MudSelectItem>
+        </MudSelect>
+        <ValidationMessage For="@(() => todo.Priority)" />
+    </div>
+
+    <br />
+    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary">Add Task</MudButton>
+</EditForm>
+
+@code {
+    private Todo todo = new Todo();
+    private DateTime? date = DateTime.Today;
+
+    protected override void OnInitialized()
+    {
+        todo.Status = "Not Completed";
+    }
+
+    private async Task HandleSubmit()
+    {
+        todo.DueDate = date ?? DateTime.Today; // Set DueDate To selected value or today
+        await TodoService.CreateTodo(todo);
+        NavigationManager.NavigateTo("");
+    }
+}
+

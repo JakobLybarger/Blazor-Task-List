@@ -1,0 +1,28 @@
+﻿@inherits LayoutComponentBase
+
+<main>
+    <MudContainer>
+        <ErrorBoundary @ref="@errorBoundary" Context="Exception">
+            <ChildContent>
+                @Body
+            </ChildContent>
+            <ErrorContent>
+                @*<div class="alert bg-danger text-white alert-dismissible">
+                    @Exception.GetType(): @Exception.Message
+                    <button class="btn-close" data-bs-dismiss="=alert" @onclick="@errorBoundary.Recover"></button>
+                </div>*@
+                <MudAlert Severity="Severity.Error" ContentAlignment="HorizontalAlignment.Center" ShowCloseIcon="true" CloseIconClicked="@errorBoundary.Recover">
+                    @Exception.GetType(): @Exception.Message
+                </MudAlert>
+            </ErrorContent>
+        </ErrorBoundary>
+    </MudContainer>
+</main>
+
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+@code {
+    private ErrorBoundary errorBoundary;
+}

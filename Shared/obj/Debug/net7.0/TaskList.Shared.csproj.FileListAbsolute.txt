@@ -1,0 +1,12 @@
+/Users/jakob/Desktop/TaskList/TaskList/Shared/bin/Debug/net7.0/TaskList.Shared.deps.json
+/Users/jakob/Desktop/TaskList/TaskList/Shared/bin/Debug/net7.0/TaskList.Shared.dll
+/Users/jakob/Desktop/TaskList/TaskList/Shared/bin/Debug/net7.0/TaskList.Shared.pdb
+/Users/jakob/Desktop/TaskList/TaskList/Shared/obj/Debug/net7.0/TaskList.Shared.csproj.AssemblyReference.cache
+/Users/jakob/Desktop/TaskList/TaskList/Shared/obj/Debug/net7.0/TaskList.Shared.GeneratedMSBuildEditorConfig.editorconfig
+/Users/jakob/Desktop/TaskList/TaskList/Shared/obj/Debug/net7.0/TaskList.Shared.AssemblyInfoInputs.cache
+/Users/jakob/Desktop/TaskList/TaskList/Shared/obj/Debug/net7.0/TaskList.Shared.AssemblyInfo.cs
+/Users/jakob/Desktop/TaskList/TaskList/Shared/obj/Debug/net7.0/TaskList.Shared.csproj.CoreCompileInputs.cache
+/Users/jakob/Desktop/TaskList/TaskList/Shared/obj/Debug/net7.0/TaskList.Shared.dll
+/Users/jakob/Desktop/TaskList/TaskList/Shared/obj/Debug/net7.0/refint/TaskList.Shared.dll
+/Users/jakob/Desktop/TaskList/TaskList/Shared/obj/Debug/net7.0/TaskList.Shared.pdb
+/Users/jakob/Desktop/TaskList/TaskList/Shared/obj/Debug/net7.0/ref/TaskList.Shared.dll
